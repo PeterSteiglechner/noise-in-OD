@@ -12,8 +12,10 @@ $$
 $$
 with the bounded confidence radius $\epsilon$ and the message $m_j$.
 
+
+
 <p align="center">
-  <img src="figs_github/sketch_ms2_v3.pdf" width="600">
+  <img src="figs_github/sketch_ms2_v3.png" width="600">
 </p>
 
 
