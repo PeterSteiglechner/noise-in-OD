@@ -10,6 +10,7 @@ $$
             x_i & \text{else}
         \end{cases} \ \  \text{with the message } m_j = x_{j} 
 $$
+
 with the bounded confidence radius $\epsilon$ and the message $m_j$.
 
 
