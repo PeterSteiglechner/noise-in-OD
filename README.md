@@ -68,7 +68,7 @@ The simulation can simply be run by executing the ```python model.py```. Paramet
 
 To analyse the model, the following code should produce a very simplified version of figure 2a in the manuscript.
 
-1. Run the model for ambiguity noise and several seeds.
+1. Run the model for "ambiguity noise", with "uniform" and several seeds.
 2. Run the analysis (e.g. in a Jupyter notebook)
 
 ```
@@ -78,7 +78,7 @@ import numpy as np
 
 eps_vals = [0.001] + list(np.arange(0.05, 0.41, 0.05))  # TODO the BC radius values (here for low resolution) 
 seedmax=9  # TODO depending on how many seeds were chosen
-data = xr.merge([ xr.open_dataset(f"data/model-ambiguityNoise_lowRes_time_2G-6AMInitial_eps{eps:.3f}_seeds0-{seedmax}.ncdf", engine="netcdf4") for eps in eps_vals])
+data = xr.merge([ xr.open_dataset(f"data/model-ambiguityNoise_lowRes_time_uniformInitial_eps{eps:.3f}_seeds0-{seedmax}.ncdf", engine="netcdf4") for eps in eps_vals])
    
 data.std(dim="id").sel({"t":1e4, "mu":0.5}).mean(dim="seed").x.plot(x="nu",cmap="Reds")
 plt.ylim(0.4,0)
