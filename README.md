@@ -77,9 +77,11 @@ import xarray as xr
 import matplotlib.pyplot as plt
 import numpy as np
 
-eps_vals = [0.001] + list(np.arange(0.05, 0.41, 0.05))  # TODO the BC radius values (here for low resolution) 
-seedmax=9  # TODO depending on how many seeds were chosen
-data = xr.merge([ xr.open_dataset(f"data/model-ambiguityNoise_lowRes_time_uniformInitial_eps{eps:.3f}_seeds0-{seedmax}.ncdf", engine="netcdf4") for eps in eps_vals])
+eps_vals = [0.001] + list(np.arange(0.05, 0.41, 0.05))  # TODO which BC radius values simulated (here for low resolution) 
+seedmax=9  # TODO how many seed values simulated
+initial_condition = "2G-6AM"  # or "uniform"
+
+data = xr.merge([ xr.open_dataset(f"data/model-ambiguityNoise_lowRes_{initial_condition}Initial_eps{eps:.3f}_seeds0-{seedmax}.ncdf", engine="netcdf4") for eps in eps_vals])
    
 data.std(dim="id").sel({"t":1e4, "mu":0.5}).mean(dim="seed").x.plot(x="nu",cmap="Reds")
 plt.ylim(0.4,0)
@@ -100,8 +102,16 @@ plt.ylim(0.4,0)
 
 ## Relevant Python Libraries and Dependencies 
 
+```
+conda env create -f environment.yml
+```
+
 | Package  | Version |
 |-----|-----|
 | python | 3.9.5 |
 | scipy | 1.6.2 |
 | numpy | 1.20.2 |
+| optional: networkx | 2.5.1 |
+| matplotlib | 3.3.4 |
+| xarray | 0.18.0 |
+| netcdf4 | 1.5.7 |
