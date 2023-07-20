@@ -308,6 +308,8 @@ if __name__=="__main__":
     import pstats
     with cProfile.Profile() as pr:
         s0 = time.time()
+        
+        # CHOOSE PARAMETERS 
         track_times = np.arange(0, int(1e4)+1, step=10000) #  np.arange(0, int(1e5)+1, step=10000) 
         mu_arr = [0.5]
         n = 100
