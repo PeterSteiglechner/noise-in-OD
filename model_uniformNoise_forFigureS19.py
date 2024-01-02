@@ -1,5 +1,6 @@
 # Opinion formation model with BC and different types of noise
-# 2023
+# November 2023
+# Update: Here, the noise is drawn form a bounded uniform distribution!
 # Peter Steiglechner
 # peter.steiglechner@gmail.com
 
@@ -66,7 +67,8 @@ class Model:
             interaction_schedule[monologues, 1] = (interaction_schedule[monologues, 1] + np.random.randint(0,self.n_agents, size=(len(monologues))))%self.n_agents
 
         # Store noisy deviations for later use. Minimum 2 noisy deviations per interaction.
-        noises = np.random.normal(loc=0,scale=self.nu, size=2*int(t_simulation))
+        #noises = np.random.normal(loc=0,scale=self.nu, size=2*int(t_simulation))
+        noises = -self.nu + 2*self.nu * np.random.random(size=2*int(t_simulation))
         counter = -1
         if self.noise_type == "exogenousNoise":
             # random values to determine when exogenous noise perturbs the opinion. 
@@ -221,11 +223,6 @@ def init_opinions(initial_dist, n_agents):
     #    # ESS8 data in Germany: variable "wrclmch" (how much do you worry about climate change?) 
     #    # --> fit is a beta distribution.
     #    initX = stats.beta(4.026928199803696, 3.028342634840655, 0, 1).rvs(n_agents)
-    elif "example1G" in initial_dist:
-        loc = float(initial_dist[-3:])
-        scale=0.1
-        a, b = (0- loc) / scale, (1 - loc) / scale
-        initX = stats.truncnorm(loc=loc, scale=scale, a=a, b=b).rvs(size=n_agents)  
     else:
         print("error in initial dist")
         return 0
@@ -308,13 +305,7 @@ nuarrs = {
     "low": np.concatenate([np.array([1e-10,1e-3]), np.arange(0.03,0.301, 0.03)])
 }
  
-# in preprint(ϵ = 0.05, 0.2, or 0.35) and ambiguity noise (ν = 10−10 , 0.08, or 0.18).
-#uniform
-epsarrs["SA"] = [0.05, 0.175, 0.3] 
-#nuarrs["SA"] = [1e-10, 0.08, 0.18]
-#sixAm
-nuarrs["SA"] = [0.05,0.08, 0.13,0.20]
-
+        
 if __name__=="__main__":
 
     import cProfile
@@ -323,19 +314,16 @@ if __name__=="__main__":
         s0 = time.time()
         
         # CHOOSE PARAMETERS 
-        track_times = np.arange(0, int(1e5)+1, step=1000) #  np.arange(0, int(1e5)+1, step=10000) 
+        track_times = np.arange(0, int(1e4)+1, step=10000) #  np.arange(0, int(1e5)+1, step=10000) 
         mu_arr = [0.5]
         n = 100
-        seeds = list(range(10))    # list(range(1000))
-        resolution = "single"
-        epsarrs["single"] = [0.175]
-        nuarrs["single"] = nuarrs["SA"]#[0.08, 0.13]
+        seeds = list(range(3))    # list(range(1000))
+        resolution = "low"
         ic = "2G-6AM"
-        #for ic in ["example1G-0.6", "example1G-0.7", "example1G-0.8", "example1G-0.9"]:
-        #    #noise_type =   "adaptationNoise"
-        #    #assert noise_type in ["ambiguityNoise", "selectionNoise", "exogenousNoise", "adaptationNoise"]
-        for noise_type in ["ambiguityNoise"]:
-            main(noise_type, resolution+"Res_" , n, ic, mu_arr, seeds, track_times, resolution=resolution, verbose=False)
+        noise_type = "ambiguityNoise"
+        assert noise_type in ["ambiguityNoise", "selectionNoise", "exogenousNoise", "adaptationNoise"]
+
+        main(noise_type, resolution+"Res_" , n, ic, mu_arr, seeds, track_times, resolution=resolution, verbose=False)
 
         #main(noise_type, expname, n, ic, mu_arr, seeds, track_times, resolution=resolution, verbose=True)
         s1 = time.time()

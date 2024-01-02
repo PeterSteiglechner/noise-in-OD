@@ -22,7 +22,7 @@ where $\epsilon$ is the bounded confidence radius.
 
 The four types of noise include:
 
-### Selection noise $\xi_{\rm se}$
+### Selection/Selectivity noise $\xi_{\rm se}$
 
 $$
 	x_{i} \mapsto 
@@ -63,7 +63,7 @@ Noise is drawn from a zero-mean Gaussian distribution with Gaussian width $\nu$.
 
 ## Running simulations
 
-The simulation can simply be run by executing the ```python model.py```. Parameters that can be changed to reproduce the results of the manuscript should be changed in the lines below ```# CHOOSE PARAMETERS``` (l. 312)
+The simulation can simply be run by executing the ```python model.py```. Parameters that can be changed to reproduce the results of the manuscript should be changed in the lines below ```# CHOOSE PARAMETERS``` (l. 325)
 
 ## Test
 
@@ -77,8 +77,8 @@ import xarray as xr
 import matplotlib.pyplot as plt
 import numpy as np
 
-eps_vals = [0.001] + list(np.arange(0.05, 0.41, 0.05))  # TODO which BC radius values simulated (here for low resolution) 
-seedmax=9  # TODO how many seed values simulated
+eps_vals = [0.05, 0.175, 0.3]  # TODO which BC radius values simulated (here for locations in figure 3a) 
+seedmax=9  # TODO how many seed values were simulated
 initial_condition = "2G-6AM"  # or "uniform"
 
 data = xr.merge([ xr.open_dataset(f"data/model-ambiguityNoise_lowRes_{initial_condition}Initial_eps{eps:.3f}_seeds0-{seedmax}.ncdf", engine="netcdf4") for eps in eps_vals])

@@ -1,0 +1,9 @@
+figs*
+log*
+data*
+combi_data*
+__pycache__*
+*.png
+OLD
+.ipynb*
+seedlist*
