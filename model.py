@@ -1,5 +1,5 @@
-# Opinion formation model with BC and different types of noise
-# 2023
+# Opinion formation model with bounded confidence and different types of noise
+# final edit December 2023
 # Peter Steiglechner
 # peter.steiglechner@gmail.com
 
@@ -48,6 +48,7 @@ class Model:
         self.all_x = np.empty([len(self.track_times), self.n_agents])#.astype("f4")
         self.all_x[0,:] = self.x.astype("f4") 
         return 
+
 
     def run(self, t_simulation):
         """
@@ -148,11 +149,12 @@ class Model:
             if counter >= 0.95*len(noises):
                     noises = np.random.normal(loc=0, scale=self.nu, size=int(t_simulation))
                     counter=0
-
-            # 5. Store opinions if time step is in track_times.
+            
+            # 4. Store opinions if time step is in track_times.
             if t in self.track_times:
                 ind = self.track_times.index(t)
                 self.all_x[ind, :] = self.x.astype("f4")
+
         return 
 
 
@@ -282,9 +284,9 @@ def main(noise_type, expname, n, ic, mu_arr, seeds, track_times, resolution, ver
         d.attrs["initial_dist"] = params["initial_dist"]
         # STORE
         if len(seeds)==1: 
-            fname = f"data/model-{noise_type}_"+expname+"{}Initial_eps{:.3f}_seeds{}.ncdf".format(ic,  eps, seeds[0])
+            fname = f"data/model-{noise_type}_{expname}{ic}Initial_eps{eps:.3f}_seeds{seeds[0]}.ncdf"
         else:
-            fname = f"data/model-{noise_type}_"+expname+"{}Initial_eps{:.3f}_seeds{}-{}.ncdf".format(ic,  eps, seeds[0], seeds[-1])
+            fname = f"data/model-{noise_type}_{expname}{ic}Initial_eps{eps:.3f}_seeds{seeds[0]}-{seeds[-1]}.ncdf"
         print("saved: ", fname)
         d.to_netcdf(fname)
     if verbose: print("finished")
@@ -314,6 +316,7 @@ epsarrs["SA"] = [0.05, 0.175, 0.3]
 #nuarrs["SA"] = [1e-10, 0.08, 0.18]
 #sixAm
 nuarrs["SA"] = [0.05,0.08, 0.13,0.20]
+
 
 if __name__=="__main__":
 
