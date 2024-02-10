@@ -1,5 +1,11 @@
 # Noise and Opinion Dynamics
 
+This repository contains model code for our manuscript:
+
+*Steiglechner, P., Keijzer, M.A., Smaldino, P.e., Moser, D., Merico, A. (in press) ‘Noise and opinion dynamics: How ambiguity promotes pro-majority consensus in the presence of confirmation bias’. Journal of the Royal Society Open Science. Preprint available at: https://doi.org/10.31235/osf.io/u2t7r.*
+
+
+
 ## The model 
 We investigate here the impact of four different types of noise on the bounded confidence (BC) model of opinion formation. Without noise, the BC model for an interaction of a receiving agent $i$ and a sending agent $j$ with opinions $x_i$ and $x_j$ reads:
 
